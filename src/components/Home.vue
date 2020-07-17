@@ -15,7 +15,7 @@
           <span>|||</span>
         </div>
         <!-- 导航菜单 -->
-        <el-menu :collapse-transition="false" :collapse="isCollapse" background-color="#333744" text-color="#fff" active-text-color="#409eff" unique-opened>
+        <el-menu :default-active="activePath" :router="true" :collapse-transition="false" :collapse="isCollapse" background-color="#333744" text-color="#fff" active-text-color="#409eff" unique-opened>
           <!-- 1级菜单 -->
           <el-submenu :index="item.id + ''" v-for="item in menuList" :key="item.id">
             <template slot="title">
@@ -23,7 +23,7 @@
               <span>{{item.authName}}</span>
             </template>
             <!-- 2级菜单 -->
-            <el-menu-item :index="child.id + ''" v-for="child in item.children" :key="child.id">
+            <el-menu-item @click="saveNavState('/home/' + child.path)" :index="'/home/' + child.path" v-for="child in item.children" :key="child.id">
               <i class="el-icon-menu"></i>
               <span>{{child.authName}}</span>
             </el-menu-item>
@@ -31,7 +31,9 @@
         </el-menu>
       </el-aside>
       <!-- 右侧内容主体 -->
-      <el-main>Main</el-main>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -48,11 +50,13 @@ export default {
         102: 'iconfont icon-danju',
         145: 'iconfont icon-baobiao'
       },
-      isCollapse: false
+      isCollapse: false,
+      activePath: ''
     }
   },
   created () {
     this.getMenuList()
+    this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
     logout () {
@@ -68,6 +72,10 @@ export default {
     },
     toggleCollapse () {
       this.isCollapse = !this.isCollapse
+    },
+    saveNavState (activePath) {
+      window.sessionStorage.setItem('activePath', activePath)
+      this.activePath = activePath
     }
   }
 }
