@@ -7,6 +7,7 @@ import Users from '../components/users/Users.vue'
 import Rights from '../components/power/Rights.vue'
 import Roles from '../components/power/Roles.vue'
 import Cate from '../components/goods/Cate.vue'
+import Params from '../components/goods/Params.vue'
 
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
 const originalPush = VueRouter.prototype.push
@@ -46,6 +47,10 @@ const router = new VueRouter({
         {
           path: '/home/categories',
           component: Cate
+        },
+        {
+          path: '/home/params',
+          component: Params
         }
       ]
     },
